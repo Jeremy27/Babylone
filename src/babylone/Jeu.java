@@ -13,8 +13,6 @@ import java.util.Scanner;
  * @author jeremy
  */
 public class Jeu {
-
-
     public static enum Joueur {
         UN,
         DEUX
@@ -28,70 +26,101 @@ public class Jeu {
         joueur = Joueur.UN;
     }
     
-    private boolean indiceNonValide(int indice) {
-        if(indice > plateau.getTaille() || indice < 0)
-            return true;
-        return false;
+    boolean indiceNonValide(int indice) {
+        return indice > plateau.getTaille()-1 || indice < 0;
     }
     
-    private boolean memeIndice(int indice1, int indice2) {
+    boolean memeIndice(int indice1, int indice2) {
         return indice1 == indice2;
     }
     
-    private boolean verifierIndices(int indice1, int indice2) {
-        if(indiceNonValide(indice1))
-            return true;
-        return false;
-    }
-    
-    public boolean verifierContrainte(int indicePile1, int indicePile2) {
+    public boolean contraintesRespectees(int indicePile1, int indicePile2) {
         boolean contraintesRespectees = true;
         if(indiceNonValide(indicePile1)) {
-            System.out.println("La Pile "+indicePile1+" n'existe pas");
+            System.out.println("[ERREUR] La Pile "+indicePile1+" n'existe pas");
             contraintesRespectees = false;
         }
         else if(indiceNonValide(indicePile2)) {
-            System.out.println("La Pile "+indicePile2+" n'existe pas");
+            System.out.println("[ERREUR] La Pile "+indicePile2+" n'existe pas");
             contraintesRespectees = false;
         }
         else if(memeIndice(indicePile1, indicePile2)) {
-            System.out.println("La Pile "+indicePile1+" et la Pile "+indicePile2+" sont les mêmes");
+            System.out.println("[ERREUR] La Pile "+indicePile1+" et la Pile "+indicePile2+" sont les mêmes");
             contraintesRespectees = false;
         }
-        else if(plateau.coupValide(plateau.getPile(indicePile1), plateau.getPile(indicePile2))) {
-            System.out.println("La Pile "+indicePile1+" ne peut pas être posée sur la Pile "+indicePile2);
+        else if(!plateau.coupValide(plateau.getPile(indicePile1), plateau.getPile(indicePile2))) {
+            System.out.println("[ERREUR] La Pile "+indicePile1+" ne peut pas être posée sur la Pile "+indicePile2);
             contraintesRespectees = false;
         }
         return contraintesRespectees;
+    }
+    
+    public void poser(int indicePile1, int indicePile2) {
+        plateau.poserSur(plateau.getPile(indicePile1), plateau.getPile(indicePile2));
+    }
+    
+    public void changerJoueur() {
+        if(joueur == Joueur.UN)
+            joueur = Joueur.DEUX;
+        else
+            joueur = Joueur.UN;
+    }
+    
+    public boolean estUnEntier(String donnee) {
+        try {
+            Integer.parseInt(donnee);
+            return true;
+        }catch(NumberFormatException e) {
+            System.out.println("[ERREUR] L'indice "+donnee+" doit être un entier  et inférieur à "+Integer.MAX_VALUE);
+            return false;
+        }
     }
     
     public boolean estPasTermine() {
         return plateau.coupPossible();
     }
     
-    private Joueur getJoueurCourant() {
+    Joueur getJoueurCourant() {
         return joueur;
     }
     
     public static void main(String[] args) {
-        int indicePile1;
-        int indicePile2;
-        boolean coupNonValide = true;
-        Scanner sc = new Scanner(System.in);
-        Jeu jeu = new Jeu();
-        System.out.println(jeu);
+        String strIndicePile1;
+        String strIndicePile2;
+        int indicePile1 = 0;
+        int indicePile2 = 0;
+        
+        Scanner sc  = new Scanner(System.in);
+        Jeu jeu     = new Jeu();
+        boolean redemander = true;
+        
+        
         while(jeu.estPasTermine()) {
-            System.out.println("JOUEUR "+ jeu.getJoueurCourant()+"à toi de jouer !");
+            redemander = true;
+            System.out.println("\n\n"+jeu.plateau);
+            System.out.println("JOUEUR "+ jeu.getJoueurCourant()+" à vous de jouer !");
             
-            while(coupNonValide) {
-                System.out.print("Choisi une première pile : ");
-                indicePile1 = sc.nextInt();
-                System.out.print("Choisi la pile sur laquelle tu veux poser la première : ");
-                indicePile2 = sc.nextInt();
-                coupNonValide = jeu.verifierContrainte(indicePile1, indicePile2);
-                // TODO : faire coup suivant + changer de joueur
-            }
+            do {
+                System.out.print("Veuillez choisir une première pile : ");
+                strIndicePile1 = sc.next();
+                System.out.print("Veuillez choisir la pile sur laquelle vous voulez poser la première : ");
+                strIndicePile2 = sc.next();
+                
+               if(jeu.estUnEntier(strIndicePile1) && jeu.estUnEntier(strIndicePile2)) {
+                   indicePile1 = Integer.parseInt(strIndicePile1);
+                   indicePile2 = Integer.parseInt(strIndicePile2);
+                   redemander = !jeu.contraintesRespectees(indicePile1, indicePile2);
+               }
+
+            } while(redemander);
+            
+            jeu.poser(indicePile1, indicePile2);
+            jeu.changerJoueur();
         }
+        System.out.println(jeu.plateau);
+        System.out.println("-------------------------------------------------");
+        System.out.println("Le JOUEUR "+jeu.getJoueurCourant()+" a perdu !!");
+        System.out.println("-------------------------------------------------");
     }
     
 }

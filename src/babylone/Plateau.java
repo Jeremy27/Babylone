@@ -83,18 +83,36 @@ public class Plateau {
         return listePiles.size();
     }
     
+//    @Override
+//    public String toString() {
+//        String str = "";
+//        Pile pile;
+//        
+//        for (int i = 0; i < listePiles.size(); i++) {
+//            pile = listePiles.get(i);
+//            str += "====PILE " + i + "====\n";
+//            str += "\tHauteur : " + pile.getHauteur() + "\n";
+//            str += "\tCouleur sommet : " + pile.getCouleurSommet() + "\n";
+//        }
+//        
+//        return str;
+//    }
+    
     @Override
     public String toString() {
-        String str = "";
+        String strPile      = "";
+        String strHauteur   = "";
+        String strCouleur   = "";
         Pile pile;
         
         for (int i = 0; i < listePiles.size(); i++) {
             pile = listePiles.get(i);
-            str += "====PILE " + i + "====\n";
-            str += "\tHauteur : " + pile.getHauteur() + "\n";
-            str += "\tCouleur sommet : " + pile.getCouleurSommet() + "\n";
+            
+            strPile     += " ==PILE " + i + "==\t|";
+            strHauteur  += "Hauteur: " + pile.getHauteur() + "\t|";
+            strCouleur  += "Couleur: " + pile.getCouleurSommet() + "\t|";
         }
         
-        return str;
+        return strPile+"\n"+strHauteur+"\n"+strCouleur+"\n";
     }
 }
