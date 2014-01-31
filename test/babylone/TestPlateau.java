@@ -57,10 +57,14 @@ public class TestPlateau {
         Plateau plateau = new Plateau();
         Pile pile1 = new Pile(Tablette.VERTE);
         Pile pile2 = new Pile(Tablette.BEIGE);
+        Pile pile3 = new Pile(Tablette.ROUGE);
         assertTrue(plateau.coupValide(pile1, pile2));
         
+        // Pile 1 : [VERTE] | Pile 2 : [BEIGE, VERTE]
         pile2.poser(pile1);
         assertTrue(plateau.coupValide(pile1, pile2));
+        
+        assertFalse(plateau.coupValide(pile2, pile3));
     }
     
     @Test
@@ -85,11 +89,5 @@ public class TestPlateau {
         plateau = new Plateau(listePiles);
         
         assertFalse(plateau.coupPossible());
-    }
-    
-    @Test
-    public void testToString() {
-        Plateau plateau = new Plateau();
-        System.out.println(plateau);
     }
 }
