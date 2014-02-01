@@ -53,7 +53,7 @@ public class TestJeu {
     }
     
     @Test
-    public void test() {
+    public void testChangerJoueur() {
         Jeu jeu = new Jeu();
         Joueur joueurCourant = jeu.getJoueurCourant();
         

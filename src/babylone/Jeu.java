@@ -92,7 +92,7 @@ public class Jeu {
         
         Scanner sc  = new Scanner(System.in);
         Jeu jeu     = new Jeu();
-        boolean redemander = true;
+        boolean redemander;
         
         
         while(jeu.estPasTermine()) {
@@ -117,7 +117,7 @@ public class Jeu {
             jeu.poser(indicePile1, indicePile2);
             jeu.changerJoueur();
         }
-        System.out.println(jeu.plateau);
+        System.out.println("\n\n"+jeu.plateau);
         System.out.println("-------------------------------------------------");
         System.out.println("Le JOUEUR "+jeu.getJoueurCourant()+" a perdu !!");
         System.out.println("-------------------------------------------------");

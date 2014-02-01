@@ -41,4 +41,31 @@ public class TestPile {
         
         assertEquals("["+Tablette.VERTE+", "+Tablette.BEIGE+"]", pile1.toString());
     }
+    
+    @Test
+    public void testHauteur() {
+        Pile pile = new Pile(Tablette.VERTE);
+        assertEquals(1, pile.getHauteur());
+        
+        pile.poser(new Pile(Tablette.BEIGE));
+        assertEquals(2, pile.getHauteur());
+        
+        pile.poser(pile);
+        assertEquals(4, pile.getHauteur());
+    }
+    
+    @Test
+    public void testCouleurSommet() {
+        Pile pile = new Pile(Tablette.VERTE);
+        assertEquals(Tablette.VERTE, pile.getCouleurSommet());
+        pile.poser(new Pile(Tablette.BEIGE));
+        assertEquals(Tablette.BEIGE, pile.getCouleurSommet());
+        pile.poser(new Pile(Tablette.NOIRE));
+        assertEquals(Tablette.NOIRE, pile.getCouleurSommet());
+        pile.poser(new Pile(Tablette.ROUGE));
+        assertEquals(Tablette.ROUGE, pile.getCouleurSommet());
+        
+        pile.poser(pile);
+        assertEquals(Tablette.ROUGE, pile.getCouleurSommet());
+    }
 }

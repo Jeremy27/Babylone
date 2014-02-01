@@ -83,21 +83,6 @@ public class Plateau {
         return listePiles.size();
     }
     
-//    @Override
-//    public String toString() {
-//        String str = "";
-//        Pile pile;
-//        
-//        for (int i = 0; i < listePiles.size(); i++) {
-//            pile = listePiles.get(i);
-//            str += "====PILE " + i + "====\n";
-//            str += "\tHauteur : " + pile.getHauteur() + "\n";
-//            str += "\tCouleur sommet : " + pile.getCouleurSommet() + "\n";
-//        }
-//        
-//        return str;
-//    }
-    
     @Override
     public String toString() {
         String strPile      = "";
